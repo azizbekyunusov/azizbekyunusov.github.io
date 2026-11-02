@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Azizbek Yunusov</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#16151a;--mut:#5d5a66;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0d12;--fg:#f3f0ea;--mut:#a09cab;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e0d12;--fg:#f3f0ea;--mut:#a09cab;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+.bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--c1);z-index:5}
+.glow{position:fixed;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;background:radial-gradient(circle,var(--c1),transparent 65%);opacity:.28;pointer-events:none;z-index:0;left:50%;top:50%}
+.stage{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:0}
+.shape{width:min(50vmin,400px);aspect-ratio:1;background:linear-gradient(135deg,var(--c1),var(--c2));filter:drop-shadow(0 30px 50px var(--sh));will-change:clip-path,transform}
+section{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:8vh 6vw}
+.t{transition:opacity .5s,transform .5s;opacity:.12;transform:translateY(40px)}
+section.on .t{opacity:1;transform:none}
+.k{font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mut);margin-bottom:.6rem}
+.name{font-size:clamp(3.2rem,15vw,11rem);line-height:.9;font-weight:900;letter-spacing:-.05em;text-transform:uppercase}
+.name span{display:block}
+.name span+span{color:transparent;-webkit-text-stroke:2px var(--fg)}
+.sub{margin-top:1.4rem;color:var(--mut);font-size:1.05rem}
+section:nth-child(even){justify-content:flex-end;text-align:right}
+a.c{display:block;color:var(--fg);text-decoration:none;font-size:clamp(1.6rem,6.5vw,4rem);font-weight:800;letter-spacing:-.03em;word-break:break-all;line-height:1.1;border-bottom:3px solid var(--c1);padding-bottom:.2rem;max-width:min(90vw,760px);pointer-events:auto;transition:letter-spacing .3s}
+a.c:hover{letter-spacing:.01em}
+.hint{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);font-size:.85rem;color:var(--mut);z-index:3;transition:opacity .4s}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="glow" id="glow"></div>
+<div class="stage"><div class="shape" id="shape"></div></div>
+<div class="hint" id="hint">↓ sichqoncha g’ildiragini aylantiring</div>
+
+<section><div class="t"><div class="name"><span>Azizbek</span><span>Yunusov</span></div><div class="sub">Aloqa uchun pastga aylantiring</div></div></section>
+<section><div class="t"><div class="k">Telegram</div><a class="c" href="https://t.me/YunusovAzizbek" target="_blank" rel="noopener">@YunusovAzizbek</a></div></section>
+<section><div class="t"><div class="k">Telefon</div><a class="c" href="tel:+998914002511">+998 91 400 25 11</a></div></section>
+<section><div class="t"><div class="k">Instagram</div><a class="c" href="https://www.instagram.com/azizbek_yunusovv_" target="_blank" rel="noopener">@azizbek_yunusovv_</a></div></section>
+<section><div class="t"><div class="k">Email</div><a class="c" href="mailto:azizbekyunusov2008@icloud.com">azizbekyunusov2008@icloud.com</a></div></section>
+
+<script>
+(function(){
+var N=12;
+function circle(){var a=[];for(var i=0;i<N;i++){var t=i/N*Math.PI*2-Math.PI/2;a.push([50+50*Math.cos(t),50+50*Math.sin(t)])}return a}
+function poly(c){var a=[],per=N/c.length;for(var s=0;s<c.length;s++){var p=c[s],q=c[(s+1)%c.length];for(var k=0;k<per;k++){var f=k/per;a.push([p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f])}}return a}
+function star(){var a=[];for(var i=0;i<N;i++){var r=i%2?22:50,t=i/N*Math.PI*2-Math.PI/2;a.push([50+r*Math.cos(t),50+r*Math.sin(t)])}return a}
+function hex(){var c=[];for(var i=0;i<6;i++){var t=i/6*Math.PI*2;c.push([50+50*Math.cos(t),50+50*Math.sin(t)])}return poly(c)}
+var shapes=[circle(),poly([[0,0],[100,0],[100,100],[0,100]]),poly([[50,0],[100,100],[0,100]]),star(),hex()];
+var pal=[["#ff5d73","#ffb347"],["#4facfe","#00f2c3"],["#a855f7","#ff5d9e"],["#ffd93d","#ff7a45"],["#22c55e","#14b8a6"]];
+var shape=document.getElementById("shape"),bar=document.getElementById("bar"),hint=document.getElementById("hint"),glow=document.getElementById("glow");
+var secs=[].slice.call(document.querySelectorAll("section"));
+function hx(h){return[1,3,5].map(function(i){return parseInt(h.substr(i,2),16)})}
+function mix(a,b,f){var x=hx(a),y=hx(b);return"rgb("+x.map(function(v,i){return Math.round(v+(y[i]-v)*f)}).join(",")+")"}
+var gx=innerWidth/2,gy=innerHeight/2,tx=gx,ty=gy;
+addEventListener("pointermove",function(e){tx=e.clientX;ty=e.clientY});
+(function loop(){gx+=(tx-gx)*.08;gy+=(ty-gy)*.08;glow.style.transform="translate("+(gx-innerWidth/2)+"px,"+(gy-innerHeight/2)+"px)";requestAnimationFrame(loop)})();
+function update(){
+ var max=document.documentElement.scrollHeight-innerHeight,p=max>0?scrollY/max:0;
+ var pos=p*(shapes.length-1),i=Math.min(Math.floor(pos),shapes.length-2),f=pos-i;
+ f=f*f*(3-2*f);
+ var A=shapes[i],B=shapes[i+1];
+ shape.style.clipPath="polygon("+A.map(function(a,k){return(a[0]+(B[0]-a[0])*f).toFixed(1)+"% "+(a[1]+(B[1]-a[1])*f).toFixed(1)+"%"}).join(",")+")";
+ var c1=mix(pal[i][0],pal[i+1][0],f),c2=mix(pal[i][1],pal[i+1][1],f),r=document.documentElement.style;
+ r.setProperty("--c1",c1);r.setProperty("--c2",c2);r.setProperty("--sh",c1.replace("rgb","rgba").replace(")",",.35)"));
+ var off=innerWidth>700?Math.sin(pos*Math.PI)*16:0;
+ shape.style.transform="translateX("+off+"vw) rotate("+(p*540)+"deg) scale("+(0.85+0.3*Math.abs(Math.sin(pos*Math.PI)))+")";
+ bar.style.width=(p*100)+"%";
+ hint.style.opacity=scrollY>40?0:1;
+ secs.forEach(function(s){var b=s.getBoundingClientRect();s.classList.toggle("on",b.top<innerHeight*.6&&b.bottom>innerHeight*.4)});
+}
+addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
+})();
+</script>
+</body>
+</html>
